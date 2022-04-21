@@ -307,7 +307,7 @@ function DashboardPage() {
               </lable>
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               <lable>
-                <b>เข็มที่</b> &nbsp; &nbsp; &nbsp;{RowData2.DoseNumber}
+                <b>เข็มที่</b> &nbsp; &nbsp; &nbsp;{RowData.vaccineCount}
               </lable>
             </form>
             <br></br>
