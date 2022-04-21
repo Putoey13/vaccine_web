@@ -19,6 +19,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Moment from 'moment';
 // import "./LoginHospital.js"; 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -133,9 +134,8 @@ function DashboardPage() {
 
   const UserRead = () => {
     Axios.post("http://gravitys.ddns.net:8081/staff/getvaccinereserve", {
-      hospitalId: 1
+      hospitalId: Number(localStorage.getItem("hospitalId"))
     }).then((response) => {
-      console.log(response)
       setUserList(response.data);
     });
   }
@@ -148,7 +148,7 @@ function DashboardPage() {
 
   const Log_Out = () => {
     localStorage.clear();
-    window.location = "/";
+    window.location = "/staff";
   }
 
   return (
@@ -173,7 +173,7 @@ function DashboardPage() {
                     <b>สถานะ</b>
                   </StyledTableCell>
                   <StyledTableCell align="center" style={{fontFamily: 'Prompt, sans-serif',}}> 
-                    <b>วัน/เดือน/ปี</b>
+                    <b>วัน/เดือน/ปี </b>
                   </StyledTableCell>
                   <StyledTableCell align="center" style={{fontFamily: 'Prompt, sans-serif',}}>
                     <b>ชื่อ-นามสกุล</b>
@@ -207,7 +207,7 @@ function DashboardPage() {
                     >
                       {row.status}
                     </StyledTableCell>
-                    <StyledTableCell align="center">{row.date}</StyledTableCell>
+                    <StyledTableCell align="center">{Moment(row.date).format("DD/MM/YYYY")}</StyledTableCell> 
                     <StyledTableCell component="th" scope="row">
                       {row.users.firstname} {row.users.surname}
                     </StyledTableCell>
@@ -266,7 +266,7 @@ function DashboardPage() {
                     <b>เพศ</b> &nbsp; &nbsp; &nbsp;{RowData.gender}
                   </lable>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                   <lable>
-                    <b>วัน/เดือน/ปีเกิด</b> {RowData.birthday}
+                    <b>วัน/เดือน/ปีเกิด</b> {Moment(RowData.birthday).format("DD/MM/YYYY")}
                   </lable>
                 </form>
                 <br></br>
