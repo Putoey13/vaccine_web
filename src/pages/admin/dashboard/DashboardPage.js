@@ -87,6 +87,7 @@ function DashboardPage() {
   const [query, setQuery] = useState("");
   const [RowData, setRowData] = useState([]);
   const [RowData2, setRowData2] = useState([]);
+  const [RowData3, setRowData3] = useState([]);
   const [newStatus, setNewStatus] = useState("");
   const [open, setOpen] = React.useState(false);
   const user = JSON.parse(localStorage.getItem('hospitalID'));
@@ -227,6 +228,7 @@ function DashboardPage() {
                         onClick={() => {
                           handleClickOpen(setRowData(row.users)); 
                           handleClickOpen(setRowData2(row.vaccine));
+                          handleClickOpen(setRowData3(row.hospital));
                         }}
                       >
                         รายละเอียด
@@ -311,7 +313,7 @@ function DashboardPage() {
             <br></br>
             <form>
               <lable>
-                <b>โรงพยาบาล</b>&nbsp; &nbsp; &nbsp; {RowData2.hospitalId}
+                <b>โรงพยาบาล</b>&nbsp; &nbsp; &nbsp; {RowData3.name}
               </lable>
             </form>
           </DialogContent>
