@@ -88,6 +88,7 @@ function DashboardPage() {
   const [RowData, setRowData] = useState([]);
   const [RowData2, setRowData2] = useState([]);
   const [RowData3, setRowData3] = useState([]);
+  const [RowData4, setRowData4] = useState([]);
   const [newStatus, setNewStatus] = useState("");
   const [open, setOpen] = React.useState(false);
   const user = JSON.parse(localStorage.getItem('hospitalID'));
@@ -229,6 +230,7 @@ function DashboardPage() {
                           handleClickOpen(setRowData(row.users)); 
                           handleClickOpen(setRowData2(row.vaccine));
                           handleClickOpen(setRowData3(row.hospital));
+                          handleClickOpen(setRowData4(row)); 
                         }}
                       >
                         รายละเอียด
@@ -322,7 +324,7 @@ function DashboardPage() {
             style={{fontFamily: 'Prompt, sans-serif',}}
               autoFocus
               onClick={() => {
-                handleUpDate(RowData.id);
+                handleUpDate(RowData4.id);
               } 
             }
             >
