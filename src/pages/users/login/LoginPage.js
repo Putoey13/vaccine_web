@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../../../assets/icon/logo.svg'
 import userService from '../../../service/userService';
+import Swal from 'sweetalert2'
 
 const LoginPage  = () => {
     const classes = useStyles();
@@ -46,6 +47,14 @@ const LoginPage  = () => {
         if(response.data.status == true){
             localStorage.setItem("userId", response.data.userId);
             window.location = "/dashboard";
+        }else{
+            Swal.fire({
+                title: 'Error',
+                text: 'รหัสบัตรประชาชนหรือ Password ผิด',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'ตกลง'
+            });
         }
     }
 }

@@ -11,6 +11,7 @@ import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import Select, { StylesConfig } from 'react-select';
 import chroma from 'chroma-js';
 import userService from '../service/userService';
+import Swal from 'sweetalert2'
 
 const VaccineDialog  = (props) => {
     const classes = useStyles();
@@ -177,6 +178,9 @@ const VaccineDialog  = (props) => {
         }
 
         async function onSubmit(){
+            if(data.vaccineCount == 0 || data.hospitalId == 0 || data.vaccineId == "" || data.date == ""){
+                return;
+            }
             let response = await userService.reserveVaccine(data);
             if(response.status == 200){
                 handleClose();

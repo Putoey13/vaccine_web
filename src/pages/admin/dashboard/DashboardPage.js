@@ -101,24 +101,33 @@ function DashboardPage() {
   };
 
   const handleUpDate = (ID) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    // var myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
     
-    var raw = JSON.stringify({
-      ID: ID
+    // var raw = JSON.stringify({
+    //   id: ID
+    // });
+    
+    // var requestOptions = {
+    //   method: 'POST',
+    //   headers: myHeaders,
+    //   body: raw,
+    //   redirect: 'follow'
+    // };
+    
+    // fetch("http://localhost:3301/checkvaccine", requestOptions)
+    //   .then(response => response.text())
+    //   .then(result => console.log(result))
+    //   .then(() =>UserRead())
+    //   .catch(error => console.log('error', error));
+
+    Axios.post("http://gravitys.ddns.net:8081/staff/checkvaccine", {
+      id: Number(ID)
+    }).then((response) => {
+      console.log(response.data);
+      UserRead();
+      handleClose();
     });
-    
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-    
-    fetch("http://localhost:3301/update", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
   };
 
   
@@ -138,6 +147,7 @@ function DashboardPage() {
     Axios.post("http://gravitys.ddns.net:8081/staff/getvaccinereserve", {
       hospitalId: Number(localStorage.getItem("hospitalId"))
     }).then((response) => {
+      console.log(response.data)
       setUserList(response.data);
     });
   }
@@ -221,7 +231,7 @@ function DashboardPage() {
                       {row.vaccine.name}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.hospitalId}
+                      {row.hospital.name}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <button
@@ -309,7 +319,7 @@ function DashboardPage() {
               </lable>
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               <lable>
-                <b>เข็มที่</b> &nbsp; &nbsp; &nbsp;{RowData.vaccineCount}
+                <b>เข็มที่</b> &nbsp; &nbsp; &nbsp;{RowData4.vaccineCount}
               </lable>
             </form>
             <br></br>

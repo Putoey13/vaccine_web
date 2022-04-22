@@ -13,7 +13,8 @@ const DashboardPage  = () => {
     const [data, setData] = useState([]);
     const [open, setOpen] = React.useState(false);
     const [openOther, setOpenOther] = React.useState(false);
-
+    const [vaccine, setVaccine] = React.useState([]);
+    const [date, setDate] = React.useState();
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -72,6 +73,18 @@ const DashboardPage  = () => {
                     );
                 }
             })}
+             <div className={classes.boxVaccine}> <span className={classes.font} style={{color: '#FE0000'}}>เข็มถัดไปควรฉีด </span>
+                {vaccine.map((item, index) => {
+                    var result = new Date(date);
+                    result.setDate(result.getDate() + item.day);
+                    console.log(result)
+                    return (
+                        <div className={classes.text}>
+                            <div className={classes.nextFont}>{item.name} {Moment(result).format("DD/MM/YYYY")}</div>
+                        </div>
+                    );
+                })}
+            </div>
             <div className={classes.groupButton}>
                 <div className={classes.button} onClick={handleClickOpen}>วัคซีนโควิด-19</div>
                 <div className={classes.button} onClick={handleClickOpenOther}>วัคซีนชนิดอื่นๆ</div>
@@ -89,8 +102,12 @@ const DashboardPage  = () => {
     )
     
     async function test(){
-        const response = await userService.getVaccine(Number(localStorage.getItem("userId")));
-        setData(response.data)
+        const response = await userService.getVaccineReserve(Number(localStorage.getItem("userId")));
+        setData(response.data);
+        setDate(response.data[response.data.length-1].date);
+
+        const response2 = await userService.getCovidVaccine();
+        setVaccine(response2.data);
     }
 }
 
@@ -115,6 +132,7 @@ const useStyles = makeStyles({
         color: '#000000',
         textAlign: 'left',
         lineHeight: '33px',
+        flexDirection: 'column',
     },
     text: {
         opacity: '1',
@@ -148,6 +166,10 @@ const useStyles = makeStyles({
             background: '#5E5BD8',
         }
     },
+    nextFont:{
+        marginLeft: '20px',
+        color: '#FF0000',
+    }
 });
 
 export default DashboardPage;

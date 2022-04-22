@@ -8,6 +8,8 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import Box from '@mui/material/Box';
 import thLocale from 'date-fns/locale/th';
 import userService from '../../../service/userService';
+import Swal from 'sweetalert2'
+
 const RegisterPage = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(null);
@@ -68,10 +70,10 @@ const RegisterPage = () => {
             </Row>
             <Row>
               <Col className={classes.box}>
-                <input className={classes.input} onChange={handleChange} name="password"></input>
+                <input className={classes.input} onChange={handleChange} name="password" type="password"></input>
               </Col>
               <Col className={classes.box}>
-                <input className={classes.input} onChange={handleChange} name="confirmPassword"></input>
+                <input className={classes.input} onChange={handleChange} name="confirmPassword" type="password"></input>
               </Col>
             </Row>
             <Row>
@@ -164,9 +166,56 @@ const RegisterPage = () => {
 
   async function onSubmit(event){
     event.preventDefault();
-    console.log(data);
-    if(data.password == data.confirmPassword){
-      userService.register(data);
+
+    if(data.address == "" || data.birthday == "" || data.confirmPassword == "" || data.birthday == "" || data.firstname == "" || data.surname == "" || data.gender == "" || data.tel == ""){
+      Swal.fire({
+        title: 'Error',
+        text: 'กรุณากรอกข้อมูลให้ครบ',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'ตกลง'
+      });
+    }
+    else if(data.idcardno.length < 13 || data.idcardno.length > 13 || isNaN(data.idcardno)){
+      Swal.fire({
+        title: 'Error',
+        text: 'กรุณากรอกหมายเลขบัตรประชาชน 13 หลัก',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'ตกลง'
+      });
+    }
+    else if(data.password != data.confirmPassword){
+      Swal.fire({
+        title: 'Error',
+        text: 'Password และ Confirm Password ไม่ตรงกัน',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'ตกลง'
+      });
+
+    }else {
+      let response = await userService.register(data);
+      console.log(response);
+      if(response.status === 200){
+        Swal.fire({
+          title: 'ลงทะเบียนสำเร็จ',
+          text: '',
+          icon: 'success',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'ตกลง'
+        }).then((result) => {
+          window.location.href = "/";
+        });
+      }else{
+        Swal.fire({
+          title: 'Error',
+          text: 'เกิดข้อผิดพลาด',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'ตกลง'
+        });
+      }
     }
   }
 };
